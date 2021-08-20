@@ -45,10 +45,10 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
     imgLink = imgStart + imgMid + imgEnd
     print(imgLink)
 
-    speak_output = f'To craft that you will need the following Ingredients: {content[1]}.\n \nItem description, {content[0]}\n \nHere is a link to a crafting guide {imgLink}'
+    speak_output = f'To craft that you will need the following Ingredients: {content[1]}... Item description, {content[0]}.. Here is a link to a crafting guide...   {imgLink}'
 
     card_title = f"Crafting Guide for {item}"
-    card_text = f'To craft that you will need the following Ingredients: {content[1]}.\n \nItem description, {content[0]}\n \nHere is a link to a crafting guide {imgLink}'
+    card_text = f'To craft that you will need the following Ingredients: {content[1]}.\n \nItem description, {content[0]}\n \nHere is a link to a crafting guide. {imgLink}'
 
     imgObj = {
       "smallImageUrl": "https://www.minecraftcraftingguide.net/img/crafting/boat-crafting.png",
@@ -59,6 +59,7 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
       handler_input.response_builder
             .speak(speak_output)
             .set_card(StandardCard(card_title, card_text, imgObj))
+            .ask(speak_output)
             .response
     )
 

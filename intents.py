@@ -6,21 +6,12 @@ import feedparser
 import requests
 from bs4 import BeautifulSoup                                                        
 
-URL = "https://www.minecraftcraftingguide.net"
-r = requests.get(URL)
-   
-soup = BeautifulSoup(r.content, 'html5lib')
-print(soup.prettify())
-
-name = soup.find(id = 'boat') 
-print(name)
-
 class MinecraftHelperIntentHandler(AbstractRequestHandler):
   """Handler for minecraft helper intent"""
   def can_handle(self, handler_input):
     return ask_utils.is_intent_name("MinecraftHelperIntent")(handler_input)
 
-    
+  
 
   def handle(self, handler_input):
     slots = handler_input.request_envelope.request.intent.slots
@@ -28,15 +19,36 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
     itemStr = str(item);
     itemRename = itemStr.replace(" ", "-")
 
+    URL = "https://www.minecraftcraftingguide.net"
+    r = requests.get(URL)
+      
+    soup = BeautifulSoup(r.content, 'html5lib')
+    print(soup.prettify())
+
+    name = soup.find(id = itemRename) 
+    print(name)
+
+    for parent_row in name.parents:
+        if parent_row.name == 'tr': 
+            break
+
+    for sibling_row in parent_row.next_siblings:
+        if sibling_row.name == 'tr': 
+            break
+
+    content = list(sibling_row.stripped_strings)
+    print(content)
+
     imgStart = 'https://www.minecraftcraftingguide.net/img/crafting/'
     imgMid = itemRename
     imgEnd = '-crafting.png'
     imgLink = imgStart + imgMid + imgEnd
     print(imgLink)
 
-    speak_output = f'To craft that you will need {itemRename} here is a link {imgLink}'
-    card_title = "Img Card Test"
-    card_text = "Should be displaying an image"
+    speak_output = f'To craft that you will need the following Ingredients: {content[1]}.\n \nItem description, {content[0]}\n \nHere is a link to a crafting guide {imgLink}'
+
+    card_title = f"Crafting Guide for {item}"
+    card_text = f'To craft that you will need the following Ingredients: {content[1]}.\n \nItem description, {content[0]}\n \nHere is a link to a crafting guide {imgLink}'
 
     imgObj = {
       "smallImageUrl": "https://www.minecraftcraftingguide.net/img/crafting/boat-crafting.png",

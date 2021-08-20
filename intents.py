@@ -1,11 +1,10 @@
 import ask_sdk_core.utils as ask_utils
 from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExceptionHandler
 from ask_sdk_core.handler_input import HandlerInput
-from ask_sdk_model.ui import SimpleCard
+from ask_sdk_model.ui import StandardCard
 import feedparser
 import requests
-from bs4 import BeautifulSoup
-import webbrowser                                                             
+from bs4 import BeautifulSoup                                                        
 
 URL = "https://www.minecraftcraftingguide.net"
 r = requests.get(URL)
@@ -25,12 +24,9 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
 
   def handle(self, handler_input):
     slots = handler_input.request_envelope.request.intent.slots
-    # interactionModel.languageModel.intents[].slots[].multipleValues.enabled
     item = slots['Item'].value
     itemStr = str(item);
     itemRename = itemStr.replace(" ", "-")
-
-
 
     imgStart = 'https://www.minecraftcraftingguide.net/img/crafting/'
     imgMid = itemRename
@@ -39,13 +35,21 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
     print(imgLink)
 
     speak_output = f'To craft that you will need {itemRename} here is a link {imgLink}'
+    card_title = "Img Card Test"
+    card_text = "Should be displaying an image"
+
+    imgObj = {
+      "smallImageUrl": "https://www.minecraftcraftingguide.net/img/crafting/boat-crafting.png",
+      "largeImageUrl": "https://www.minecraftcraftingguide.net/img/crafting/boat-crafting.png"
+    }
 
     return (
       handler_input.response_builder
-          .speak(speak_output)
-          .set_card(SimpleCard('test', 'card_text'))#might need to link account for it to work
-          .response
+            .speak(speak_output)
+            .set_card(StandardCard(card_title, card_text, imgObj))
+            .response
     )
+
 
 class GetBlogIntentHandler(AbstractRequestHandler):
   """Handler for the get blog intent"""

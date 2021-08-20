@@ -27,14 +27,18 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
     slots = handler_input.request_envelope.request.intent.slots
     # interactionModel.languageModel.intents[].slots[].multipleValues.enabled
     item = slots['Item'].value
+    itemStr = str(item);
+    itemRename = itemStr.replace(" ", "-")
+
+
 
     imgStart = 'https://www.minecraftcraftingguide.net/img/crafting/'
-    imgMid = item
+    imgMid = itemRename
     imgEnd = '-crafting.png'
     imgLink = imgStart + imgMid + imgEnd
     print(imgLink)
 
-    speak_output = f'To craft that you will need {item} here is a link {imgLink}'
+    speak_output = f'To craft that you will need {itemRename} here is a link {imgLink}'
 
     return (
       handler_input.response_builder

@@ -24,12 +24,16 @@ from ask_sdk_model.interfaces.alexa.presentation.apl import (
     RenderDocumentDirective)
  
 from typing import Dict, Any
- 
+
+
+
 # APL Document file paths for use in handlers
 hello_world_doc_path = "helloworldDocument.json"
- 
+hello_world_button_doc_path = "helloworldWithButtonDocument.json"
+
 # Tokens used when sending the APL directives
 HELLO_WORLD_TOKEN = "helloworldToken"
+HELLO_WORLD_WITH_BUTTON_TOKEN = "helloworldWithButtonToken"
  
  
 def _load_apl_document(file_path):
@@ -44,6 +48,7 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
  
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
+        # return is_intent_name("HelloWorldWithButtonIntent")(handler_input)
         return is_intent_name("HelloWorldIntent")(handler_input)
  
     def handle(self, handler_input):
@@ -55,13 +60,17 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
                 handler_input).alexa_presentation_apl is not None:
             response_builder.add_directive(
                 RenderDocumentDirective(
-                    token=HELLO_WORLD_TOKEN,
-                    document=_load_apl_document(hello_world_doc_path)
+                    # token=HELLO_WORLD_TOKEN,
+                    # document=_load_apl_document(hello_world_doc_path)
+                    token=HELLO_WORLD_WITH_BUTTON_TOKEN,
+                    document=_load_apl_document(hello_world_button_doc_path)
                 )
             )
-            # Tailor the speech for a device with a screen
-            speak_output += (" You should now also see my greeting on the "
-                             "screen.")
+#             # Tailor the speech for a device with a screen
+#             speak_output += (" Welcome to Alexa Presentation Language. "
+#                              "Click the button to see what happens!")
+
+
         else:
             # User's device does not support APL, so tailor the speech to
             # this situation
@@ -83,6 +92,26 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Working code do not touch lol
 
 class MinecraftHelperIntentHandler(AbstractRequestHandler):
   """Handler for minecraft helper intent"""

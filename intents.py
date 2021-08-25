@@ -4,7 +4,85 @@ from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_model.ui import StandardCard
 import feedparser
 import requests
-from bs4 import BeautifulSoup                                                        
+from bs4 import BeautifulSoup       
+from ask_sdk_model import Response
+from ask_sdk_core.utils import get_supported_interfaces
+ 
+ 
+
+
+#testing new stuff ahhhhhhhhh
+import json
+ 
+from ask_sdk_core.utils import (
+    is_intent_name, get_supported_interfaces)
+from ask_sdk_core.handler_input import HandlerInput
+from ask_sdk_core.dispatch_components import AbstractRequestHandler
+ 
+from ask_sdk_model import Response
+from ask_sdk_model.interfaces.alexa.presentation.apl import (
+    RenderDocumentDirective)
+ 
+from typing import Dict, Any
+ 
+# APL Document file paths for use in handlers
+hello_world_doc_path = "helloworldDocument.json"
+ 
+# Tokens used when sending the APL directives
+HELLO_WORLD_TOKEN = "helloworldToken"
+ 
+ 
+def _load_apl_document(file_path):
+    # type: (str) -> Dict[str, Any]
+    """Load the apl json document at the path into a dict object."""
+    with open(file_path) as f:
+        return json.load(f)
+ 
+ 
+class HelloWorldIntentHandler(AbstractRequestHandler):
+    """Handler for Hello World Intent."""
+ 
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return is_intent_name("HelloWorldIntent")(handler_input)
+ 
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        speak_output = "Hello World!"
+        response_builder = handler_input.response_builder
+ 
+        if get_supported_interfaces(
+                handler_input).alexa_presentation_apl is not None:
+            response_builder.add_directive(
+                RenderDocumentDirective(
+                    token=HELLO_WORLD_TOKEN,
+                    document=_load_apl_document(hello_world_doc_path)
+                )
+            )
+            # Tailor the speech for a device with a screen
+            speak_output += (" You should now also see my greeting on the "
+                             "screen.")
+        else:
+            # User's device does not support APL, so tailor the speech to
+            # this situation
+            speak_output += (" This example would be more interesting on a "
+                             "device with a screen, such as an Echo Show or "
+                             "Fire TV.")
+ 
+        return response_builder.speak(speak_output).response
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class MinecraftHelperIntentHandler(AbstractRequestHandler):
   """Handler for minecraft helper intent"""
@@ -97,20 +175,20 @@ class LaunchRequestHandler(AbstractRequestHandler):
         )
 
 
-class HelloWorldIntentHandler(AbstractRequestHandler):
-  """Handler for Hello World Intent."""
-  def can_handle(self, handler_input):
-    print('checking if we can handle')
-    return ask_utils.is_intent_name("HelloWorldIntent")(handler_input)
+# class HelloWorldIntentHandler(AbstractRequestHandler):
+#   """Handler for Hello World Intent."""
+#   def can_handle(self, handler_input):
+#     print('checking if we can handle')
+#     return ask_utils.is_intent_name("HelloWorldIntent")(handler_input)
 
-  def handle(self, handler_input):
-    speak_output = "Hello World!"
+#   def handle(self, handler_input):
+#     speak_output = "Hello World!"
 
-    return (
-      handler_input.response_builder
-          .speak(speak_output)
-          .response
-    )
+#     return (
+#       handler_input.response_builder
+#           .speak(speak_output)
+#           .response
+#     )
 
 
 class HelpIntentHandler(AbstractRequestHandler):

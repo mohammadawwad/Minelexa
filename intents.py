@@ -21,11 +21,11 @@ from ask_sdk_model.interfaces.alexa.presentation.apl import UserEvent
 
 
 # APL Document file paths for use in handlers
-hello_world_doc_path = "helloworldDocument.json"
+# hello_world_doc_path = "helloworldDocument.json"
 hello_world_button_doc_path = "helloworldWithButtonDocument.json"
 
 # Tokens used when sending the APL directives
-HELLO_WORLD_TOKEN = "helloworldToken"
+# HELLO_WORLD_TOKEN = "helloworldToken"
 HELLO_WORLD_WITH_BUTTON_TOKEN = "helloworldWithButtonToken"
  
  
@@ -76,32 +76,32 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
 
  
  
-class HelloWorldButtonEventHandler(AbstractRequestHandler):
-    def can_handle(self, handler_input):
-        # type: (HandlerInput) -> bool
-        # Since an APL skill might have multiple buttons that generate
-        # UserEvents, use the event source ID to determine the button press
-        # that triggered this event and use the correct handler.
-        # In this example, the string 'fadeHelloTextButton' is the ID we set
-        # on the AlexaButton in the document.
+# class HelloWorldButtonEventHandler(AbstractRequestHandler):
+#     def can_handle(self, handler_input):
+#         # type: (HandlerInput) -> bool
+#         # Since an APL skill might have multiple buttons that generate
+#         # UserEvents, use the event source ID to determine the button press
+#         # that triggered this event and use the correct handler.
+#         # In this example, the string 'fadeHelloTextButton' is the ID we set
+#         # on the AlexaButton in the document.
  
-        # The user_event.source is a dict object. We can retrieve the id
-        # using the get method on the dictionary.
-        if is_request_type("Alexa.Presentation.APL.UserEvent")(handler_input):
-            user_event = handler_input.request_envelope.request  # type: UserEvent
-            return user_event.source.get("id") == "fadeHelloTextButton"
-        else:
-            return False
+#         # The user_event.source is a dict object. We can retrieve the id
+#         # using the get method on the dictionary.
+#         if is_request_type("Alexa.Presentation.APL.UserEvent")(handler_input):
+#             user_event = handler_input.request_envelope.request  # type: UserEvent
+#             return user_event.source.get("id") == "fadeHelloTextButton"
+#         else:
+#             return False
  
-    def handle(self, handler_input):
-        # type: (HandlerInput) -> Response
-        speech_text = ("Thank you for clicking the button! I imagine you "
-                       "already noticed that the text faded away. Tell me to "
-                       "start over to bring it back!")
+#     def handle(self, handler_input):
+#         # type: (HandlerInput) -> Response
+#         speech_text = ("Thank you for clicking the button! I imagine you "
+#                        "already noticed that the text faded away. Tell me to "
+#                        "start over to bring it back!")
  
-        return handler_input.response_builder.speak(speech_text).ask(
-            "Tell me to start over if you want me to bring the text back into "
-            "view. Or, you can just say hello again.").response
+#         return handler_input.response_builder.speak(speech_text).ask(
+#             "Tell me to start over if you want me to bring the text back into "
+#             "view. Or, you can just say hello again.").response
 
 
 

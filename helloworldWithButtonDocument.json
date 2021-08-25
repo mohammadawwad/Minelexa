@@ -19,44 +19,41 @@
         "width": "100vw",
         "items": [
           {
-            "type": "Text",
-            "id": "helloTextComponent",
-            "height": "75%",
-            "text": "Hello world! This APL document includes a button from the alexa-layouts package. Touch the button to see what happens.",
-            "textAlign": "center",
-            "textAlignVertical": "center",
-            "paddingLeft": "@spacingSmall",
-            "paddingRight": "@spacingSmall",
-            "paddingTop": "@spacingXLarge",
-            "style": "textStyleBody"
-          },
-          {
             "type": "AlexaBackground",
-            "backgroundImageSource":"https://www.minecraftcraftingguide.net/img/crafting/boat-crafting.png",
+            "backgroundImageSource":"https://d2o906d8ln7ui1.cloudfront.net/images/MollyforBT7.png",
             "colorOverlay": true
           },
           {
-            "type": "AlexaButton",
-            "alignSelf": "center",
-            "id": "fadeHelloTextButton",
-            "buttonText": "This is a button",
-            "primaryAction": [
-              {
-                "type": "AnimateItem",
-                "duration": 3000,
-                "componentId": "helloTextComponent",
-                "value": {
-                  "property": "opacity",
-                  "to": 0
-                }
-              },
-              {
-                "type": "SendEvent",
-                "arguments": [
-                  "user clicked the button"
-                ]
-              }
-            ]
+            "type": "AlexaHeader",
+            "headerTitle": "Crafting Guide For:",
+            "headerSubtitle": "Item",
+            "headerDivider": true,
+            "headerAttributionImage": "https://d2o906d8ln7ui1.cloudfront.net/images/cheeseskillicon.png"
+          },
+          {
+            "type": "Text",
+            "id": "helloTextComponent",
+            "height": "20%",
+            "width": "50%",
+            "text": "Hello world! This APL document includes a button from the alexa-layouts package. Touch the button to see what happens.",
+            "textAlign": "left",
+            "textAlignVertical": "left",
+            "paddingLeft": "@spacingXLarge",
+            "paddingRight": "@spacingSmall",
+            "paddingTop": "@spacingXLarge",
+            "style": "textStyleBody",
+            "fontSize": "@fontSizeSmall"
+          },
+          {
+            "type": "AlexaImage",
+            "imageSource": "https://www.minecraftcraftingguide.net/img/crafting/boat-crafting.png",
+            "imageRoundedCorner": true,
+            "imageScale": "best-fit",
+            "imageAlignment": "center",
+            "imageHeight": "50vh",
+            "imageAspectRatio": "square",
+            "top": "-15%",
+            "left": "65%"
           }
         ]
       }

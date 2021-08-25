@@ -6,24 +6,17 @@ import feedparser
 import requests
 from bs4 import BeautifulSoup       
 from ask_sdk_model import Response
-from ask_sdk_core.utils import get_supported_interfaces
- 
- 
+import json
+from ask_sdk_model.interfaces.alexa.presentation.apl import (
+    RenderDocumentDirective)
+from typing import Dict, Any
+from ask_sdk_core.utils import (
+    is_request_type, is_intent_name, get_supported_interfaces)
+from ask_sdk_model.interfaces.alexa.presentation.apl import UserEvent
 
 
 #testing new stuff ahhhhhhhhh
-import json
- 
-from ask_sdk_core.utils import (
-    is_intent_name, get_supported_interfaces)
-from ask_sdk_core.handler_input import HandlerInput
-from ask_sdk_core.dispatch_components import AbstractRequestHandler
- 
-from ask_sdk_model import Response
-from ask_sdk_model.interfaces.alexa.presentation.apl import (
-    RenderDocumentDirective)
- 
-from typing import Dict, Any
+
 
 
 
@@ -81,6 +74,34 @@ class HelloWorldIntentHandler(AbstractRequestHandler):
         return response_builder.speak(speak_output).response
 
 
+ 
+ 
+class HelloWorldButtonEventHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        # Since an APL skill might have multiple buttons that generate
+        # UserEvents, use the event source ID to determine the button press
+        # that triggered this event and use the correct handler.
+        # In this example, the string 'fadeHelloTextButton' is the ID we set
+        # on the AlexaButton in the document.
+ 
+        # The user_event.source is a dict object. We can retrieve the id
+        # using the get method on the dictionary.
+        if is_request_type("Alexa.Presentation.APL.UserEvent")(handler_input):
+            user_event = handler_input.request_envelope.request  # type: UserEvent
+            return user_event.source.get("id") == "fadeHelloTextButton"
+        else:
+            return False
+ 
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        speech_text = ("Thank you for clicking the button! I imagine you "
+                       "already noticed that the text faded away. Tell me to "
+                       "start over to bring it back!")
+ 
+        return handler_input.response_builder.speak(speech_text).ask(
+            "Tell me to start over if you want me to bring the text back into "
+            "view. Or, you can just say hello again.").response
 
 
 

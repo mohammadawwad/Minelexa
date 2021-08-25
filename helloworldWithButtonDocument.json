@@ -31,6 +31,11 @@
             "style": "textStyleBody"
           },
           {
+            "type": "AlexaBackground",
+            "backgroundImageSource":"https://www.minecraftcraftingguide.net/img/crafting/boat-crafting.png",
+            "colorOverlay": true
+          },
+          {
             "type": "AlexaButton",
             "alignSelf": "center",
             "id": "fadeHelloTextButton",

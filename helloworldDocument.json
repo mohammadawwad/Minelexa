@@ -21,8 +21,11 @@
         "height": "100vh",
         "textAlign": "center",
         "textAlignVertical": "center",
-        "text": "Hello World!"
+        "text": "Hello World!",
+        "backgroundImageSource": "https://d2o906d8ln7ui1.cloudfront.net/images/MollyforBT7.png"
       }
+   
     ]
+
   }
 }

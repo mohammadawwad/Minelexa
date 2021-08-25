@@ -12,20 +12,15 @@ from ask_sdk_model.interfaces.alexa.presentation.apl import (
 from typing import Dict, Any
 from ask_sdk_core.utils import (
     is_request_type, is_intent_name, get_supported_interfaces)
-from ask_sdk_model.interfaces.alexa.presentation.apl import UserEvent
 
 
-#testing new stuff ahhhhhhhhh
 
 
 
 
 # APL Document file paths for use in handlers
-# hello_world_doc_path = "helloworldDocument.json"
 hello_world_button_doc_path = "helloworldWithButtonDocument.json"
-
 # Tokens used when sending the APL directives
-# HELLO_WORLD_TOKEN = "helloworldToken"
 HELLO_WORLD_WITH_BUTTON_TOKEN = "helloworldWithButtonToken"
  
  
@@ -34,101 +29,6 @@ def _load_apl_document(file_path):
     """Load the apl json document at the path into a dict object."""
     with open(file_path) as f:
         return json.load(f)
- 
- 
-class HelloWorldIntentHandler(AbstractRequestHandler):
-    """Handler for Hello World Intent."""
- 
-    def can_handle(self, handler_input):
-        # type: (HandlerInput) -> bool
-        # return is_intent_name("HelloWorldWithButtonIntent")(handler_input)
-        return is_intent_name("HelloWorldIntent")(handler_input)
- 
-    def handle(self, handler_input):
-        # type: (HandlerInput) -> Response
-        speak_output = "Hello World!"
-        response_builder = handler_input.response_builder
- 
-        if get_supported_interfaces(
-                handler_input).alexa_presentation_apl is not None:
-            response_builder.add_directive(
-                RenderDocumentDirective(
-                    # token=HELLO_WORLD_TOKEN,
-                    # document=_load_apl_document(hello_world_doc_path)
-                    token=HELLO_WORLD_WITH_BUTTON_TOKEN,
-                    document=_load_apl_document(hello_world_button_doc_path)
-                )
-            )
-#             # Tailor the speech for a device with a screen
-#             speak_output += (" Welcome to Alexa Presentation Language. "
-#                              "Click the button to see what happens!")
-
-
-        else:
-            # User's device does not support APL, so tailor the speech to
-            # this situation
-            speak_output += (" This example would be more interesting on a "
-                             "device with a screen, such as an Echo Show or "
-                             "Fire TV.")
- 
-        return response_builder.speak(speak_output).response
-
-
- 
- 
-# class HelloWorldButtonEventHandler(AbstractRequestHandler):
-#     def can_handle(self, handler_input):
-#         # type: (HandlerInput) -> bool
-#         # Since an APL skill might have multiple buttons that generate
-#         # UserEvents, use the event source ID to determine the button press
-#         # that triggered this event and use the correct handler.
-#         # In this example, the string 'fadeHelloTextButton' is the ID we set
-#         # on the AlexaButton in the document.
- 
-#         # The user_event.source is a dict object. We can retrieve the id
-#         # using the get method on the dictionary.
-#         if is_request_type("Alexa.Presentation.APL.UserEvent")(handler_input):
-#             user_event = handler_input.request_envelope.request  # type: UserEvent
-#             return user_event.source.get("id") == "fadeHelloTextButton"
-#         else:
-#             return False
- 
-#     def handle(self, handler_input):
-#         # type: (HandlerInput) -> Response
-#         speech_text = ("Thank you for clicking the button! I imagine you "
-#                        "already noticed that the text faded away. Tell me to "
-#                        "start over to bring it back!")
- 
-#         return handler_input.response_builder.speak(speech_text).ask(
-#             "Tell me to start over if you want me to bring the text back into "
-#             "view. Or, you can just say hello again.").response
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -142,6 +42,29 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
   
 
   def handle(self, handler_input):
+    #screen Stuff------------------------------
+    speak_output = "Hello World!"
+    response_builder = handler_input.response_builder
+
+    if get_supported_interfaces(
+            handler_input).alexa_presentation_apl is not None:
+        response_builder.add_directive(
+            RenderDocumentDirective(
+                # token=HELLO_WORLD_TOKEN,
+                # document=_load_apl_document(hello_world_doc_path)
+                token=HELLO_WORLD_WITH_BUTTON_TOKEN,
+                document=_load_apl_document(hello_world_button_doc_path)
+            )
+        )
+
+    else:
+        # User's device does not support APL, so tailor the speech to
+        # this situation
+        speak_output += (" This example would be more interesting on a "
+                          "device with a screen, such as an Echo Show or "
+                          "Fire TV.")
+
+    #screen stuff--------------------------------------
     slots = handler_input.request_envelope.request.intent.slots
     item = slots['Item'].value
     itemStr = str(item);
@@ -178,18 +101,16 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
     card_title = f"Crafting Guide for {item}"
     card_text = f'To craft that you will need the following Ingredients: {content[1]}.\n \nItem description, {content[0]}\n \nHere is a link to a crafting guide. {imgLink}'
 
-    imgObj = {
-      "smallImageUrl": "https://www.minecraftcraftingguide.net/img/crafting/boat-crafting.png",
-      "largeImageUrl": "https://www.minecraftcraftingguide.net/img/crafting/boat-crafting.png"
-    }
+ 
 
     return (
       handler_input.response_builder
             .speak(speak_output)
-            .set_card(StandardCard(card_title, card_text, imgObj))
+            .set_card(StandardCard(card_title, card_text))
             .ask(speak_output)
             .response
     )
+
 
 
 class GetBlogIntentHandler(AbstractRequestHandler):

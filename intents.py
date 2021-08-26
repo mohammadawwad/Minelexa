@@ -6,10 +6,33 @@ from bs4 import BeautifulSoup
 from jsonModifier import jsonWriter
 import ask_sdk_core.utils as ask_utils
 from ask_sdk_model.ui import SimpleCard
+from requests.exceptions import ConnectionError
 from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_core.utils import get_supported_interfaces
 from ask_sdk_model.interfaces.alexa.presentation.apl import RenderDocumentDirective
 from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExceptionHandler
+
+
+# import module
+from urllib.request import urlopen
+from urllib.error import HTTPError, URLError
+ 
+# try block to read URL
+try:
+  html = urlopen("https://www.minecraftcraftingguide.net/img/crafting/swords-crafting.png")
+     
+# except block to catch
+# exception
+# and identify error
+except HTTPError as e:
+    print("HTTP error", e)
+     
+except URLError as e:
+    print("Opps ! Page not found!", e)
+ 
+else:
+    print('Yeah !  found ')
+
 
 
 
@@ -66,10 +89,18 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
 
     #creates the imgs link based on the item you are interested in
     imgStart = 'https://www.minecraftcraftingguide.net/img/crafting/'
-    imgMid = itemRename
-    imgEnd = '-crafting.png'
+    imgMid = itemRename +  '-crafting'
+    imgEnd = '.png'
     imgLink = imgStart + imgMid + imgEnd
     print(imgLink)
+
+    try:
+        request = requests.get(imgLink)
+    except ConnectionError:
+        print('Web site does not exist')
+        imgEnd = '.gif'
+    else:
+        print('Web site exists')
 
     #speach and APL screen text and img
     item_ingredients = f'To craft that you will need the following Ingredients: {content[1]}'

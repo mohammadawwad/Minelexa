@@ -1,38 +1,30 @@
-import ask_sdk_core.utils as ask_utils
-from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExceptionHandler
-from ask_sdk_core.handler_input import HandlerInput
-from ask_sdk_model.ui import StandardCard
-import feedparser
-import requests
-from bs4 import BeautifulSoup       
-from ask_sdk_model import Response
 import json
-from ask_sdk_model.interfaces.alexa.presentation.apl import (
-    RenderDocumentDirective)
+import requests
+import feedparser
 from typing import Dict, Any
-from ask_sdk_core.utils import (
-    is_request_type, is_intent_name, get_supported_interfaces)
-
-
-
+from bs4 import BeautifulSoup     
+from jsonModifier import jsonWriter
+import ask_sdk_core.utils as ask_utils
+from ask_sdk_model.ui import SimpleCard
+from ask_sdk_core.handler_input import HandlerInput
+from ask_sdk_core.utils import get_supported_interfaces
+from ask_sdk_model.interfaces.alexa.presentation.apl import RenderDocumentDirective
+from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExceptionHandler
 
 
 
 # APL Document file paths for use in handlers
-hello_world_button_doc_path = "helloworldWithButtonDocument.json"
+apl_details_path = "aplDetails.json"
 # Tokens used when sending the APL directives
-HELLO_WORLD_WITH_BUTTON_TOKEN = "helloworldWithButtonToken"
+APL_DETAILS_TOKEN = "aplDetailsToken"
  
- 
+
 def _load_apl_document(file_path):
     # type: (str) -> Dict[str, Any]
     """Load the apl json document at the path into a dict object."""
     with open(file_path) as f:
         return json.load(f)
 
-
-
-#Working code do not touch lol
 
 class MinecraftHelperIntentHandler(AbstractRequestHandler):
   """Handler for minecraft helper intent"""
@@ -42,43 +34,25 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
   
 
   def handle(self, handler_input):
-    #screen Stuff------------------------------
-    speak_output = "Hello World!"
-    response_builder = handler_input.response_builder
-
-    if get_supported_interfaces(
-            handler_input).alexa_presentation_apl is not None:
-        response_builder.add_directive(
-            RenderDocumentDirective(
-                # token=HELLO_WORLD_TOKEN,
-                # document=_load_apl_document(hello_world_doc_path)
-                token=HELLO_WORLD_WITH_BUTTON_TOKEN,
-                document=_load_apl_document(hello_world_button_doc_path)
-            )
-        )
-
-    else:
-        # User's device does not support APL, so tailor the speech to
-        # this situation
-        speak_output += (" This example would be more interesting on a "
-                          "device with a screen, such as an Echo Show or "
-                          "Fire TV.")
-
-    #screen stuff--------------------------------------
+    #reads the slot value you entered in the question
     slots = handler_input.request_envelope.request.intent.slots
     item = slots['Item'].value
     itemStr = str(item);
     itemRename = itemStr.replace(" ", "-")
 
+    #site url for webscraping
     URL = "https://www.minecraftcraftingguide.net"
     r = requests.get(URL)
-      
+    
+    #using beautiful soup to scrape text and imgs
     soup = BeautifulSoup(r.content, 'html5lib')
     print(soup.prettify())
 
     name = soup.find(id = itemRename) 
     print(name)
 
+    #since elements dont have id's we are looping through
+    #the nested objects since there is a pattern
     for parent_row in name.parents:
         if parent_row.name == 'tr': 
             break
@@ -90,23 +64,50 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
     content = list(sibling_row.stripped_strings)
     print(content)
 
+    #creates the imgs link based on the item you are interested in
     imgStart = 'https://www.minecraftcraftingguide.net/img/crafting/'
     imgMid = itemRename
     imgEnd = '-crafting.png'
     imgLink = imgStart + imgMid + imgEnd
     print(imgLink)
 
-    speak_output = f'To craft that you will need the following Ingredients: {content[1]}... Item description, {content[0]}.. Here is a link to a crafting guide...   {imgLink}'
+    #speach and APL screen text and img
+    item_ingredients = f'To craft that you will need the following Ingredients: {content[1]}'
+    item_description = f'Item description: {content[0]}'
+    speak_output = f'{item_ingredients}. {item_description}'
 
+    #card text
     card_title = f"Crafting Guide for {item}"
     card_text = f'To craft that you will need the following Ingredients: {content[1]}.\n \nItem description, {content[0]}\n \nHere is a link to a crafting guide. {imgLink}'
 
- 
+    #Modifies json file which is used for APL
+    jsonWriter(item, item_ingredients, item_description, imgLink)
 
+    #Shows APL screen output if available
+    response_builder = handler_input.response_builder
+    if get_supported_interfaces(
+            handler_input).alexa_presentation_apl is not None:
+        response_builder.add_directive(
+            RenderDocumentDirective(
+                token = APL_DETAILS_TOKEN,
+                document = _load_apl_document(apl_details_path)
+            )
+        )
+
+    else:
+        # User's device does not support APL, so tailor the speech to
+        # this situation
+        speak_output += (" This example would be more interesting on a "
+                          "device with a screen, such as an Echo Show or "
+                          "Fire TV. If you are using this in the developer"
+                          "console make sure to enable APL in Build Tab -> Interfaces")
+
+
+    #handles all our outputs
     return (
       handler_input.response_builder
             .speak(speak_output)
-            .set_card(StandardCard(card_title, card_text))
+            .set_card(SimpleCard(card_title, card_text))
             .ask(speak_output)
             .response
     )
@@ -144,22 +145,6 @@ class LaunchRequestHandler(AbstractRequestHandler):
                 .ask(speak_output)
                 .response
         )
-
-
-# class HelloWorldIntentHandler(AbstractRequestHandler):
-#   """Handler for Hello World Intent."""
-#   def can_handle(self, handler_input):
-#     print('checking if we can handle')
-#     return ask_utils.is_intent_name("HelloWorldIntent")(handler_input)
-
-#   def handle(self, handler_input):
-#     speak_output = "Hello World!"
-
-#     return (
-#       handler_input.response_builder
-#           .speak(speak_output)
-#           .response
-#     )
 
 
 class HelpIntentHandler(AbstractRequestHandler):

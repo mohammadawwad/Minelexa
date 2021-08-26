@@ -20,22 +20,35 @@
         "items": [
           {
             "type": "AlexaBackground",
-            "backgroundImageSource":"https://d2o906d8ln7ui1.cloudfront.net/images/MollyforBT7.png",
+            "backgroundImageSource": "https://d2o906d8ln7ui1.cloudfront.net/images/MollyforBT7.png",
             "colorOverlay": true
           },
           {
             "type": "AlexaHeader",
             "headerTitle": "Crafting Guide For:",
-            "headerSubtitle": "Item",
-            "headerDivider": true,
-            "headerAttributionImage": "https://d2o906d8ln7ui1.cloudfront.net/images/cheeseskillicon.png"
+            "headerSubtitle": "bow",
+            "headerDivider": true
           },
           {
             "type": "Text",
             "id": "helloTextComponent",
             "height": "20%",
             "width": "50%",
-            "text": "Hello world! This APL document includes a button from the alexa-layouts package. Touch the button to see what happens.",
+            "text": "To craft that you will need the following Ingredients: Sticks + String",
+            "textAlign": "left",
+            "textAlignVertical": "left",
+            "paddingLeft": "@spacingXLarge",
+            "paddingRight": "@spacingSmall",
+            "paddingTop": "@spacingXLarge",
+            "style": "textStyleBody",
+            "fontSize": "@fontSizeSmall"
+          },
+          {
+            "type": "Text",
+            "id": "helloTextComponent",
+            "height": "20%",
+            "width": "50%",
+            "text": "Item description: Ranged weapon used to fire arrows. To use the bow you must have arrows in your inventory.",
             "textAlign": "left",
             "textAlignVertical": "left",
             "paddingLeft": "@spacingXLarge",
@@ -46,7 +59,7 @@
           },
           {
             "type": "AlexaImage",
-            "imageSource": "https://www.minecraftcraftingguide.net/img/crafting/swords-crafting.gif",
+            "imageSource": "https://www.minecraftcraftingguide.net/img/crafting/bow-crafting.png",
             "imageRoundedCorner": true,
             "imageScale": "best-fit",
             "imageAlignment": "center",

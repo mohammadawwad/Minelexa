@@ -2,38 +2,14 @@ import json
 import requests
 import feedparser
 from typing import Dict, Any
-from bs4 import BeautifulSoup     
+from bs4 import BeautifulSoup    
 from jsonModifier import jsonWriter
 import ask_sdk_core.utils as ask_utils
 from ask_sdk_model.ui import SimpleCard
-from requests.exceptions import ConnectionError
 from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_core.utils import get_supported_interfaces
 from ask_sdk_model.interfaces.alexa.presentation.apl import RenderDocumentDirective
 from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExceptionHandler
-
-
-# import module
-from urllib.request import urlopen
-from urllib.error import HTTPError, URLError
- 
-# try block to read URL
-try:
-  html = urlopen("https://www.minecraftcraftingguide.net/img/crafting/swords-crafting.png")
-     
-# except block to catch
-# exception
-# and identify error
-except HTTPError as e:
-    print("HTTP error", e)
-     
-except URLError as e:
-    print("Opps ! Page not found!", e)
- 
-else:
-    print('Yeah !  found ')
-
-
 
 
 # APL Document file paths for use in handlers
@@ -94,13 +70,17 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
     imgLink = imgStart + imgMid + imgEnd
     print(imgLink)
 
-    try:
-        request = requests.get(imgLink)
-    except ConnectionError:
-        print('Web site does not exist')
-        imgEnd = '.gif'
+    #checks to see if the link exists
+    #changes between .png and .gif as links may vary
+    response = requests.get(imgLink)
+    if response.status_code == 200:
+      print('imgUrl site exists')
     else:
-        print('Web site exists')
+      print('imgUrl site does not exist') 
+      imgEnd = '.gif'
+      imgLink = imgStart + imgMid + imgEnd
+      print(imgLink)
+      
 
     #speach and APL screen text and img
     item_ingredients = f'To craft that you will need the following Ingredients: {content[1]}'

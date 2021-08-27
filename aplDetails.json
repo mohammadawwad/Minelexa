@@ -26,7 +26,7 @@
           {
             "type": "AlexaHeader",
             "headerTitle": "Crafting Guide For:",
-            "headerSubtitle": "bow",
+            "headerSubtitle": "swords",
             "headerDivider": true
           },
           {
@@ -34,7 +34,7 @@
             "id": "helloTextComponent",
             "height": "20%",
             "width": "50%",
-            "text": "To craft that you will need the following Ingredients: Sticks + String",
+            "text": "To craft that you will need the following Ingredients: Stick + Wood Planks or Cobblestone or Iron Ingots or Gold Ingots or Diamonds",
             "textAlign": "left",
             "textAlignVertical": "left",
             "paddingLeft": "@spacingXLarge",
@@ -48,7 +48,7 @@
             "id": "helloTextComponent",
             "height": "20%",
             "width": "50%",
-            "text": "Item description: Ranged weapon used to fire arrows. To use the bow you must have arrows in your inventory.",
+            "text": "Item description: Melee weapon used to damage mobs, other player or to block attacks.",
             "textAlign": "left",
             "textAlignVertical": "left",
             "paddingLeft": "@spacingXLarge",
@@ -59,7 +59,7 @@
           },
           {
             "type": "AlexaImage",
-            "imageSource": "https://www.minecraftcraftingguide.net/img/crafting/bow-crafting.png",
+            "imageSource": "https://www.minecraftcraftingguide.net/img/crafting/swords-crafting.gif",
             "imageRoundedCorner": true,
             "imageScale": "best-fit",
             "imageAlignment": "center",

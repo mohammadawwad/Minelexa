@@ -10,7 +10,7 @@ from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_core.utils import get_supported_interfaces
 from ask_sdk_model.interfaces.alexa.presentation.apl import RenderDocumentDirective
 from ask_sdk_core.dispatch_components import AbstractRequestHandler, AbstractExceptionHandler
-
+#make it read the slot value NAME istead of actual value ex sword -> swords
 
 # APL Document file paths for use in handlers
 apl_details_path = "aplDetails.json"
@@ -31,7 +31,6 @@ class MinecraftHelperIntentHandler(AbstractRequestHandler):
     return ask_utils.is_intent_name("MinecraftHelperIntent")(handler_input)
 
   
-
   def handle(self, handler_input):
     #reads the slot value you entered in the question
     slots = handler_input.request_envelope.request.intent.slots

@@ -147,7 +147,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
         return ask_utils.is_request_type("LaunchRequest")(handler_input)
 
     def handle(self, handler_input):
-        speak_output = 'Welcome to the Minecraft Replexa skil! What do you need help crafting?'
+        speak_output = 'Welcome to the Minecraft Minelexa skil! What do you need help crafting?'
 
         return (
             handler_input.response_builder

@@ -1,9 +1,9 @@
-# Minecraft Replexa
+# Minelexa
 Replexa is a template for hosting custom Amazon Alexa [skills](https://www.amazon.com/alexa-skills/b?ie=UTF8&node=13727921011) on Replit.
 
 
 
-### How to use the Minecraft Replexa skills
+### How to use the Minecraft Alexa skills
 1. run the repl
 2. use the wake command `i need help in minecraft` in the amazon developer console test tab
 2. ask alexa to craft literly 

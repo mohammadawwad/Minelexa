@@ -20,13 +20,13 @@
         "items": [
           {
             "type": "AlexaBackground",
-            "backgroundImageSource": "https://d2o906d8ln7ui1.cloudfront.net/images/MollyforBT7.png",
+            "backgroundImageSource": "https://wallpaperaccess.com/full/4118106.jpg",
             "colorOverlay": true
           },
           {
             "type": "AlexaHeader",
             "headerTitle": "Crafting Guide For:",
-            "headerSubtitle": "torches",
+            "headerSubtitle": "fishing rod",
             "headerDivider": true
           },
           {
@@ -34,7 +34,7 @@
             "id": "helloTextComponent",
             "height": "30%",
             "width": "55%",
-            "text": "To craft that you will need the following Ingredients: Stick + Coal",
+            "text": "To craft that you will need the following Ingredients: Sticks + Strings",
             "textAlign": "left",
             "textAlignVertical": "left",
             "paddingLeft": "@spacingXLarge",
@@ -48,7 +48,7 @@
             "id": "helloTextComponent",
             "height": "20%",
             "width": "60%",
-            "text": "Item description: Torches creates a permanent light when placed on walls or other suitable surfaces. Light keeps evil mobs from spawning.",
+            "text": "Item description: Used to catch fish. You can also use them to grab movable objects and drag them towards yourself. Rods have 33 uses (durability).",
             "textAlign": "left",
             "textAlignVertical": "left",
             "paddingLeft": "@spacingXLarge",
@@ -59,7 +59,7 @@
           },
           {
             "type": "AlexaImage",
-            "imageSource": "https://www.minecraftcraftingguide.net/img/crafting/torches-crafting.png",
+            "imageSource": "https://www.minecraftcraftingguide.net/img/crafting/fishing-rod-crafting.png",
             "imageRoundedCorner": true,
             "imageScale": "best-fit",
             "imageAlignment": "center",

@@ -1,5 +1,5 @@
 # Minelexa
-Replexa is a template for hosting custom Amazon Alexa [skills](https://www.amazon.com/alexa-skills/b?ie=UTF8&node=13727921011) on Replit.
+Minelexa is a bot creaed with a custom Amazon Alexa [skills](https://www.amazon.com/alexa-skills/b?ie=UTF8&node=13727921011) on Replit.
 
 
 
